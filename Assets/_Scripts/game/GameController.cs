@@ -245,10 +245,11 @@ public class GameController : MonoBehaviour
             if (timeCount >= 5)
             {
                 StartImage.gameObject.SetActive(false);
+                isPlaying = true;
+                isPause = true;
                 if(!isStart)
                 {
                     isStart = true;
-                    isPlaying = true;
                 }
                 for(int i=0;i<4;i++){
                     isTImerChecker[i] = false;
@@ -259,7 +260,7 @@ public class GameController : MonoBehaviour
             StartImage.gameObject.SetActive(false);
             isPlaying = false;
             isCounterChecker = false;
-            if(isStart){
+            if(isStart&&isPause){
                 PauseButton.gameObject.SetActive(true);            
             }
             for(int i=0;i<3;i++){
