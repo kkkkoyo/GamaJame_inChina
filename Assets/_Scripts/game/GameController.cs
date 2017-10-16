@@ -1,23 +1,34 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System.Collections.Generic;
+
 public class GameController : MonoBehaviour
 {
     public Text scoreLabel;
 	[SerializeField] private GameObject winnerLabelObject;
     private bool isFinished = false;
     private bool isStart = false;
+    private bool isPlaying = false;
+
+    private bool isPause = false;
+
     [SerializeField] private Image StartImage;
     [SerializeField] private Sprite[] CountDownSprite;
     private bool[] isLeftTap = new bool [2]{false,false};
     private bool[] isRightTap = new bool [2]{false,false};
     [SerializeField]private Image[] isTapButton;
-    [SerializeField]private Button[] isTapButton_;
 
     private Color beforeColor = Color.gray;
     private Color afterColor = Color.red;
     private Color prepareColor = Color.cyan;
     private bool isButtonChecker = false;
+    private float StartTime = 0;
+    private float Timer = 0;
+    private float select_TimeLimit = 3f;
+    private bool[] isTImerChecker = new bool [4]{false,false,false,false};
+    private bool isCounterChecker = false;
+    [SerializeField]private Image PauseButton;
 
     private void InitTapColors()
     {
@@ -27,15 +38,78 @@ public class GameController : MonoBehaviour
             isTapButton[i].color = imageColors[i];
         }
     }
+    private void TestKeyButton()
+    {
+        //isTapStartButton_test
+        if (Input.GetKeyDown(KeyCode.T)) {
+            isTapStartButton(1);
+        }if(Input.GetKeyDown(KeyCode.G)) {
+            isTapStartButton(2);
+        }if(Input.GetKeyDown(KeyCode.Y)) {
+            isTapStartButton(3);
+        }if(Input.GetKeyDown(KeyCode.H)) {
+            isTapStartButton(4);
+        }
+        //isTapOutStartButton_test
+        if (Input.GetKeyUp(KeyCode.T)) {
+            isTapOutStartButton(1);
+        }if(Input.GetKeyUp(KeyCode.G)) {
+            isTapOutStartButton(2);
+        }if(Input.GetKeyUp(KeyCode.Y)) {
+            isTapOutStartButton(3);
+        }if(Input.GetKeyUp(KeyCode.H)) {
+            isTapOutStartButton(4);
+        }
+        // Debug.Log(Input.GetKeyDown(KeyCode.T)+":"
+        // +":"+Input.GetKeyDown(KeyCode.G)
+        // +":"+Input.GetKeyDown(KeyCode.Y)
+        // +":"+Input.GetKeyDown(KeyCode.H)
+        // +":"+Input.GetKeyUp(KeyCode.T)
+        // +":"+Input.GetKeyUp(KeyCode.G)
+        // +":"+Input.GetKeyUp(KeyCode.Y)
+        // +":"+Input.GetKeyUp(KeyCode.H)
+        // );
+    }
     
     void Start()
-    {   
+    {
+
         InitTapColors();
+        StartTime = Time.time;
     }
     private void CheckCompleteToLeft()
     {
         isTapButton[1].color = prepareColor;
         isTapButton[2].color = prepareColor;
+    }
+    public void isTapOutStartButton(int num)
+    {
+        Color[] imageColors = new Color [4]{prepareColor,beforeColor,beforeColor,prepareColor};
+
+        // if(isStart)
+        // {
+
+        // }else{
+            if(num==1||num==4)
+            {
+                for(int i=0;i<4;i++)
+                {
+                    isTapButton[i].color = imageColors[i];
+                }
+                for(int i=0;i<2;i++)
+                {
+                    isLeftTap[i] = false;
+                    isRightTap[i] = false;
+                }
+            }else if((num==2||num==3)&&(isLeftTap[0]&&isLeftTap[1]))
+            {
+                isTapButton[1].color = prepareColor;
+                isTapButton[2].color = prepareColor;
+                isRightTap[0] = false;
+                isRightTap[1] = false;
+            }
+
+       // }
     }
     public void isTapStartButton(int num)
     {
@@ -109,11 +183,11 @@ public class GameController : MonoBehaviour
     }
     public bool GetisStart()
     {
-        return isStart;
+        return isPlaying;
     }
     public void GoStartGame()
     {
-        StartCoroutine(PushStart());
+        //StartCoroutine(PushStart());
     }
     private IEnumerator PushStart()
     {
@@ -132,16 +206,79 @@ public class GameController : MonoBehaviour
     {
         if(isLeftTap[0]&&isLeftTap[1]&&isRightTap[0]&&isRightTap[1])
         {
-            if(isButtonChecker)
-                return;
-            isButtonChecker = true;
-            GoStartGame();
+            if(!isCounterChecker)
+            {
+                StartTime = Time.time;
+                isCounterChecker = true;
+            }
+            // if(isButtonChecker){
+                
+			// float timeCount = Time.time - StartTime;
+
+            // }
+            float timeCount = Time.time - StartTime;
+            //circle.fillAmount = timeCount/select_TimeLimit+0.05f;
+            if (timeCount >= 1&&!isTImerChecker[0])
+            {
+
+                StartImage.gameObject.SetActive(true);
+                StartImage.sprite = CountDownSprite[0];
+                isTImerChecker[0] = true;
+            }
+            if (timeCount >= 2&&!isTImerChecker[1])
+            {
+                StartImage.sprite = CountDownSprite[1];
+                isTImerChecker[1] = true;
+
+            }
+            if (timeCount >= 3&&!isTImerChecker[2])
+            {
+                StartImage.sprite = CountDownSprite[2];
+                isTImerChecker[2] = true;
+
+            }
+            if (timeCount >= 4&&!isTImerChecker[3])
+            {
+                StartImage.sprite = CountDownSprite[3];
+                isTImerChecker[3] = true;
+            }
+            if (timeCount >= 5)
+            {
+                StartImage.gameObject.SetActive(false);
+                if(!isStart)
+                {
+                    isStart = true;
+                    isPlaying = true;
+                }
+                for(int i=0;i<4;i++){
+                    isTImerChecker[i] = false;
+                }
+            }
+
+        }else{
+            StartImage.gameObject.SetActive(false);
+            isPlaying = false;
+            isCounterChecker = false;
+            if(isStart){
+                PauseButton.gameObject.SetActive(true);            
+            }
+            for(int i=0;i<3;i++){
+                isTImerChecker[0] = false;
+                isTImerChecker[i] = false;
+            }
         }
+    }
+    public void TouchPauseButton()
+    {
+        PauseButton.gameObject.SetActive(false);
+        isPause = false;
     }
     public void Update ()
     {
-        if(isStart)
+        TestKeyButton();
+        if(isPlaying)
         {
+            CheckPushButton();
             int count = GameObject.FindGameObjectsWithTag ("Item").Length;
             scoreLabel.text = count.ToString ();
             if (count == 0 && !isFinished) {

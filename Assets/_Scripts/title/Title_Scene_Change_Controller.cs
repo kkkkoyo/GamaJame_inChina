@@ -7,7 +7,6 @@ public class Title_Scene_Change_Controller : MonoBehaviour {
 
 	void Awake()
 	{
-		Screen.orientation = ScreenOrientation.LandscapeLeft;
 		SoundManager.Instance.PlayBgm("loop");
 	}
 
