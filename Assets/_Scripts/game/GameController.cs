@@ -15,13 +15,15 @@ public class GameController : MonoBehaviour
 
     [SerializeField] private Image StartImage;
     [SerializeField] private Sprite[] CountDownSprite;
+    [SerializeField] private Image StartImage_2;
+
     private bool[] isLeftTap = new bool [2]{false,false};
     private bool[] isRightTap = new bool [2]{false,false};
     [SerializeField]private Image[] isTapButton;
 
-    private Color beforeColor = Color.gray;
-    private Color afterColor = Color.yellow;
-    private Color prepareColor = Color.white;
+    // private Color beforeColor;
+    // private Color afterColor;
+    // private Color prepareColor;
     private bool isButtonChecker = false;
     private float StartTime = 0;
     private float GameTime = 0;
@@ -39,6 +41,25 @@ public class GameController : MonoBehaviour
     [SerializeField] private Text ScoreText;
     private int score = 0;
     private int [] CH_LIM = new int[5]　{1000,800,600,400,200}; //const_num
+
+    void Awake()
+    {
+        // prepareColor  = Color.white;
+        // beforeColor = Color.gray;
+        // afterColor  = Color.gray;
+    }
+    private Color prepareColor()
+    {
+        return new Color(255,255,55,125f);
+    }
+    private Color beforeColor()
+    {
+        return new Color(255,255,255,255f);
+    }
+    private Color afterColor()
+    {
+        return new Color(255,255,255,0.2f);
+    }
     public void GoMenu(){
         SceneManager.LoadScene("PassChoose");
     }
@@ -72,51 +93,35 @@ public class GameController : MonoBehaviour
         FinishedImage.gameObject.SetActive(true);
         //TODO:アニメーション            
     }
+    private Color colorrr()
+    {
+        return new Color(255,255,255,0.5f);
+    }
     private void InitTapColors()
     {
-        Color[] imageColors = new Color [4]{prepareColor,beforeColor,beforeColor,prepareColor};
-        for(int i= 0;i<4;i++)
-        {
-            isTapButton[i].color = imageColors[i];
-        }
+        isTapButton[0].color = prepareColor();
+        isTapButton[1].color = afterColor();
+        isTapButton[2].color = afterColor();
+        isTapButton[3].color = prepareColor();
     }
     private void TestKeyButton()
     {
         //isTapStartButton_test
         if (Input.GetKeyDown(KeyCode.T)) {
             isTapStartButton(1);
+            isTapStartButton(4);
         }if(Input.GetKeyDown(KeyCode.G)) {
             isTapStartButton(2);
-        }if(Input.GetKeyDown(KeyCode.Y)) {
             isTapStartButton(3);
-        }if(Input.GetKeyDown(KeyCode.H)) {
-            isTapStartButton(4);
         }
         //isTapOutStartButton_test
         if (Input.GetKeyUp(KeyCode.T)) {
-            Debug.Log("Ttest");
             isTapOutStartButton(1);
-        }if(Input.GetKeyUp(KeyCode.G)) {
-            Debug.Log("Gtest");
-            isTapOutStartButton(2);
-        }if(Input.GetKeyUp(KeyCode.Y)) {
-            Debug.Log("Ytest");
-
-            isTapOutStartButton(3);
-        }if(Input.GetKeyUp(KeyCode.H)) {
-            Debug.Log("Htest");
-
             isTapOutStartButton(4);
+        }if(Input.GetKeyUp(KeyCode.G)) {
+            isTapOutStartButton(2);
+            isTapOutStartButton(3);
         }
-        // Debug.Log(Input.GetKeyDown(KeyCode.T)+":"
-        // +":"+Input.GetKeyDown(KeyCode.G)
-        // +":"+Input.GetKeyDown(KeyCode.Y)
-        // +":"+Input.GetKeyDown(KeyCode.H)
-        // +":"+Input.GetKeyUp(KeyCode.T)
-        // +":"+Input.GetKeyUp(KeyCode.G)
-        // +":"+Input.GetKeyUp(KeyCode.Y)
-        // +":"+Input.GetKeyUp(KeyCode.H)
-        // );
     }
     
     void Start()
@@ -127,14 +132,12 @@ public class GameController : MonoBehaviour
     }
     private void CheckCompleteToLeft()
     {
-        isTapButton[1].color = prepareColor;
-        isTapButton[2].color = prepareColor;
+        isTapButton[1].color = prepareColor();
+        isTapButton[2].color = prepareColor();
     }
     public void isTapOutStartButton(int num)
     {
        //return ;//is Test mode, iOS is noReturn
-        Color[] imageColors = new Color [4]{prepareColor,beforeColor,beforeColor,prepareColor};
-
         // if(isStart)
         // {
 
@@ -143,7 +146,10 @@ public class GameController : MonoBehaviour
             {
                 for(int i=0;i<4;i++)
                 {
-                    isTapButton[i].color = imageColors[i];
+                    isTapButton[0].color = prepareColor();
+                    isTapButton[1].color = afterColor();
+                    isTapButton[2].color = afterColor();
+                    isTapButton[3].color = prepareColor();
                 }
                 for(int i=0;i<2;i++)
                 {
@@ -152,8 +158,8 @@ public class GameController : MonoBehaviour
                 }
             }else if((num==2||num==3)&&(isLeftTap[0]&&isLeftTap[1]))
             {
-                isTapButton[1].color = prepareColor;
-                isTapButton[2].color = prepareColor;
+                isTapButton[1].color = prepareColor();
+                isTapButton[2].color = prepareColor();
                 isRightTap[0] = false;
                 isRightTap[1] = false;
             }
@@ -166,7 +172,7 @@ public class GameController : MonoBehaviour
         {
             if(num==1||num==4)
             {
-                isTapButton[num-1].color = afterColor;//1
+                isTapButton[num-1].color = afterColor();//1
                 if(num==1)
                 {
                     isLeftTap[0] = true;
@@ -182,7 +188,7 @@ public class GameController : MonoBehaviour
         {
             if(num==4)
             {
-                isTapButton[num-1].color = afterColor;//2
+                isTapButton[num-1].color = afterColor();//2
                 isLeftTap[1] = true;
                 CheckCompleteToLeft();
             }
@@ -190,7 +196,7 @@ public class GameController : MonoBehaviour
         {
             if(num==1)
             {
-                isTapButton[num-1].color = afterColor;//2
+                isTapButton[num-1].color = afterColor();//2
                 isLeftTap[0] = true;
                 CheckCompleteToLeft();
             }
@@ -201,7 +207,7 @@ public class GameController : MonoBehaviour
             {
                 if(num==2||num==3)
                 {
-                    isTapButton[num-1].color = afterColor;//2
+                    isTapButton[num-1].color = afterColor();//2
                     if(num==2)
                     {
                         isRightTap[0] = true;
@@ -216,20 +222,21 @@ public class GameController : MonoBehaviour
             {
                 if(num==2)
                 {
-                    isTapButton[num-1].color = afterColor;//2
+                    isTapButton[num-1].color = afterColor();//2
                     isRightTap[0] = true;
                 }
             }else if(isRightTap[0]&&!isRightTap[1])//prepareLeft
             {
                 if(num==3)
                 {
-                    isTapButton[num-1].color = afterColor;//2
+                    isTapButton[num-1].color = afterColor();//2
                     isRightTap[1] = true;
                 }
             //after, lefttap
             }
         }
     }
+    
     public bool GetisStart()
     {
         return isPlaying;
@@ -237,19 +244,6 @@ public class GameController : MonoBehaviour
     public void GoStartGame()
     {
         //StartCoroutine(PushStart());
-    }
-    private IEnumerator PushStart()
-    {
-
-        StartImage.gameObject.SetActive(true);
-        for(int i=0;i<4;i++)
-        {
-            StartImage.sprite = CountDownSprite[i];
-            yield return new WaitForSeconds(1.0f);
-
-        }
-            StartImage.gameObject.SetActive(false);
-            isStart = true;
     }
     private void CheckPushButton()
     {
@@ -267,33 +261,35 @@ public class GameController : MonoBehaviour
             // }
             float timeCount = Time.time - StartTime;
             //circle.fillAmount = timeCount/select_TimeLimit+0.05f;
-            if (timeCount >= 1&&!isTImerChecker[0])
+            if (timeCount >= 0&&!isTImerChecker[0])
             {
 
                 StartImage.gameObject.SetActive(true);
                 StartImage.sprite = CountDownSprite[0];
                 isTImerChecker[0] = true;
             }
-            if (timeCount >= 2&&!isTImerChecker[1])
+            if (timeCount >= 1&&!isTImerChecker[1])
             {
                 StartImage.sprite = CountDownSprite[1];
                 isTImerChecker[1] = true;
 
             }
-            if (timeCount >= 3&&!isTImerChecker[2])
+            if (timeCount >= 2&&!isTImerChecker[2])
             {
                 StartImage.sprite = CountDownSprite[2];
                 isTImerChecker[2] = true;
 
             }
-            if (timeCount >= 4&&!isTImerChecker[3])
-            {
-                StartImage.sprite = CountDownSprite[3];
-                isTImerChecker[3] = true;
-            }
-            if (timeCount >= 5)
+            if (timeCount >= 3&&!isTImerChecker[3])
             {
                 StartImage.gameObject.SetActive(false);
+                StartImage_2.gameObject.SetActive(true);
+                isTImerChecker[3] = true;
+            }
+            if (timeCount >= 4)
+            {
+                StartImage.gameObject.SetActive(false);
+                StartImage_2.gameObject.SetActive(false);
                 isPlaying = true;
                 isPause = true;
                 if(!isStart)
