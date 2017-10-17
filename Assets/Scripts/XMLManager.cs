@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
-//using UnityEditor;
+using UnityEditor;
 using System.IO;
 using System.Xml;
 
@@ -14,13 +13,13 @@ public class XMLManager : MonoBehaviour
         if (!Directory.Exists("Assets/Save"))
         {
             //create the floder and Xml List
-            //AssetDatabase.CreateFolder("Assets", "Save");
+            AssetDatabase.CreateFolder("Assets", "Save");
             CreatXml();
             for (int i = 0; i < 5; i++)
             {
                 CreateLevel((i + 1).ToString(), "0", "False");
             }
-            XMLManager.UpdateIsPass(1, true);            
+            XMLManager.UpdateIsPass(1, true);
         }
     }
 
@@ -34,7 +33,7 @@ public class XMLManager : MonoBehaviour
             //create root node
             XmlDocument xmlDoc = new XmlDocument();            
             XmlElement root = xmlDoc.CreateElement("List");
-            xmlDoc.AppendChild(root);
+            xmlDoc.AppendChild(root);            
             xmlDoc.Save(filepath);
         }
     }

@@ -9,6 +9,6 @@ public class WheelRotate : MonoBehaviour
         //rotate,the speed is depend on the scale of themself.
         Timer += Time.deltaTime;
         this.GetComponent<RectTransform>().rotation = Quaternion.AngleAxis(
-            15 * this.GetComponent<RectTransform>().localScale.x * -Timer, Vector3.forward);
+            (60/(this.GetComponent<RectTransform>().localScale.x - 0.5f)) * -Timer, Vector3.forward);
     }
 }

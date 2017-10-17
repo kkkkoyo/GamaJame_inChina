@@ -3,22 +3,27 @@ using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
-public class LevelButton : MonoBehaviour {
+public class LevelChoose : MonoBehaviour {
 
     //update the button's image.depend on isPass
-    public Button First;
-    public Button Second;
-    public Button Third;
-    public Button Fourth;
-    public Button Fifth;
+    public int StageNum;
+
+    public Image First;
+    public Image Second;
+    public Image Third;
+    public Image Fourth;
+    public Image Fifth;
+
+    public Text LevelNum;
+    public Text BestScore;
 
     struct ButtonInf
     {
-        public Button Name;
+        public Image Name;
         public int Level;
         public int Score;
         public bool IsPass;
-        public ButtonInf(Button name, int level)
+        public ButtonInf(Image name, int level)
         {
             Name = name;
             Level = level;
@@ -29,6 +34,9 @@ public class LevelButton : MonoBehaviour {
 
     private void Awake()
     {
+        StageNum = 1;
+        UpdateName();
+        UpdateScore();
         List<ButtonInf> ButtonList = new List<ButtonInf>();
         ButtonInf Level1 = new ButtonInf(First, 1);
         ButtonList.Add(Level1);
@@ -40,14 +48,27 @@ public class LevelButton : MonoBehaviour {
         ButtonList.Add(Level4);
         ButtonInf Level5 = new ButtonInf(Fifth, 5);
         ButtonList.Add(Level5);
-        int num = 0;
-        foreach (ButtonInf button in ButtonList)
+        foreach (ButtonInf Image in ButtonList)
         {
-            if (button.IsPass == false)
+            if (Image.IsPass == false)
             {
-                button.Name.image.overrideSprite = Resources.Load<Sprite>("Sprite/gray");
+                Image.Name.overrideSprite = Resources.Load<Sprite>("Sprite/gray");
+            }
+            else
+            {
+                Image.Name.overrideSprite = Resources.Load<Sprite>("Sprite/yellow");
             }
         }
+    }
+
+    public void UpdateName()
+    {
+        LevelNum.text = StageNum.ToString();
+    }
+
+    public void UpdateScore()
+    {
+        BestScore.text = XMLManager.getBestScore(StageNum).ToString();
     }
 
 }

@@ -4,21 +4,32 @@ using System.Collections;
 public class CilckManager : MonoBehaviour {
 
     //the page of welcome.
-    public GameObject lefthand;
-    public GameObject righthand;
+    public GameObject downhand;
     public GameObject uphand;
-    private bool move = false;
+    public GameObject tag;
 
-	void Update () {
+    private Vector3 whale;
+    private Vector3 wheels;
+
+    private static bool move = false;
+
+    private void Awake()
+    {
+        whale = uphand.transform.position;
+        wheels = downhand.transform.position;
+    }
+
+    void Update () {
         if (Input.GetButtonUp("Fire1"))
         {
             move = true;
+            tag.SetActive(false);
             Invoke("jump",1); 
+            Data.Instance.isTitleDisplay = true;
         }
         if (move)
         {
-            lefthand.transform.Translate(new Vector3(-5, 0, 0));
-            righthand.transform.Translate(new Vector3(5, 0, 0));
+            downhand.transform.Translate(new Vector3(0, -5, 0));
             uphand.transform.Translate(new Vector3(0, 5, 0));
         }
 
@@ -26,5 +37,13 @@ public class CilckManager : MonoBehaviour {
     void jump()
     {
         this.gameObject.SetActive(false);
+    }
+
+    public void Back()
+    {
+        tag.SetActive(true);
+        CilckManager.move = false;
+        uphand.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
+        downhand.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
     }
 }

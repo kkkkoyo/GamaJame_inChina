@@ -18,7 +18,7 @@ public class TitleAnimation : MonoBehaviour {
 
     void Update () {
         SizeControl();
-        this.GetComponent<RectTransform>().sizeDelta = new Vector2(100 * size_change,100 * size_change * size_coefficient);
+        this.GetComponent<RectTransform>().sizeDelta = new Vector2(210 * size_change,130 * size_change * size_coefficient);
     }
 
     private void SizeControl()
