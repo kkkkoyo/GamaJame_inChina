@@ -1,0 +1,27 @@
+<List>
+  <LevelInformation>
+    <LevelName>1</LevelName>
+    <BestScore>0</BestScore>
+    <IsPass>True</IsPass>
+  </LevelInformation>
+  <LevelInformation>
+    <LevelName>2</LevelName>
+    <BestScore>0</BestScore>
+    <IsPass>False</IsPass>
+  </LevelInformation>
+  <LevelInformation>
+    <LevelName>3</LevelName>
+    <BestScore>0</BestScore>
+    <IsPass>False</IsPass>
+  </LevelInformation>
+  <LevelInformation>
+    <LevelName>4</LevelName>
+    <BestScore>0</BestScore>
+    <IsPass>False</IsPass>
+  </LevelInformation>
+  <LevelInformation>
+    <LevelName>5</LevelName>
+    <BestScore>0</BestScore>
+    <IsPass>False</IsPass>
+  </LevelInformation>
+</List>

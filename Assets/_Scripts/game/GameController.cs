@@ -27,13 +27,22 @@ public class GameController : MonoBehaviour
     private float GameTime = 0;
     private float GameStartTime = 0;
     private float touchDangerCount = 0;
-
     private float Timer = 0;
     private float select_TimeLimit = 3f;
     private bool[] isTImerChecker = new bool [4]{false,false,false,false};
     private bool isCounterChecker = false;
     [SerializeField]private Image PauseButton;
-
+    private float DangerTime = 0;
+    private float DangerStartTime = 0;
+    private float DangerReuseSpeed = 1f;
+    public void ReduceTouchPoint()
+    {
+        if(Time.time - DangerStartTime >= DangerReuseSpeed)
+        {
+            DangerStartTime = Time.time;
+            touchDangerCount++;
+        }
+    }
     private void InitTapColors()
     {
         Color[] imageColors = new Color [4]{prepareColor,beforeColor,beforeColor,prepareColor};
@@ -94,7 +103,7 @@ public class GameController : MonoBehaviour
     }
     public void isTapOutStartButton(int num)
     {
-        return ;
+        return ;//is Test mode, iOS is noReturn
         Color[] imageColors = new Color [4]{prepareColor,beforeColor,beforeColor,prepareColor};
 
         // if(isStart)
@@ -283,7 +292,7 @@ public class GameController : MonoBehaviour
     }
     private void InitStart()
     {
-        
+        GameStartTime = Time.time;
     }
     public void TouchPauseButton()
     {
@@ -293,6 +302,11 @@ public class GameController : MonoBehaviour
     public void Update ()
     {
         TestKeyButton();
+        Debug.Log(PauseButton.gameObject.active);
+        if(isStart&&!PauseButton.gameObject.active)
+        {
+            GameTime = Time.time - GameStartTime;
+        }
         if(isPlaying)
         {
             CheckPushButton();
