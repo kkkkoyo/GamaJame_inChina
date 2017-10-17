@@ -5,12 +5,20 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
     // speedを制御する
+    private void ChangeGravity()
+    {
+        transform.GetComponent<Rigidbody>().useGravity = false;
+    }
     public float speed = 10;
     [SerializeField] private GameController gamecontroller;
 	 void FixedUpdate ()
     {
         if(!gamecontroller.GetisStart())
+        {
+            ChangeGravity();
             return;
+        }
+        transform.GetComponent<Rigidbody>().useGravity = true;
         //  入力をxとzに代入
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");

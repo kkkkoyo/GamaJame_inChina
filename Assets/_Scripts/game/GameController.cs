@@ -24,6 +24,10 @@ public class GameController : MonoBehaviour
     private Color prepareColor = Color.cyan;
     private bool isButtonChecker = false;
     private float StartTime = 0;
+    private float GameTime = 0;
+    private float GameStartTime = 0;
+    private float touchDangerCount = 0;
+
     private float Timer = 0;
     private float select_TimeLimit = 3f;
     private bool[] isTImerChecker = new bool [4]{false,false,false,false};
@@ -52,12 +56,18 @@ public class GameController : MonoBehaviour
         }
         //isTapOutStartButton_test
         if (Input.GetKeyUp(KeyCode.T)) {
+            Debug.Log("Ttest");
             isTapOutStartButton(1);
         }if(Input.GetKeyUp(KeyCode.G)) {
+            Debug.Log("Gtest");
             isTapOutStartButton(2);
         }if(Input.GetKeyUp(KeyCode.Y)) {
+            Debug.Log("Ytest");
+
             isTapOutStartButton(3);
         }if(Input.GetKeyUp(KeyCode.H)) {
+            Debug.Log("Htest");
+
             isTapOutStartButton(4);
         }
         // Debug.Log(Input.GetKeyDown(KeyCode.T)+":"
@@ -84,6 +94,7 @@ public class GameController : MonoBehaviour
     }
     public void isTapOutStartButton(int num)
     {
+        return ;
         Color[] imageColors = new Color [4]{prepareColor,beforeColor,beforeColor,prepareColor};
 
         // if(isStart)
@@ -249,6 +260,7 @@ public class GameController : MonoBehaviour
                 isPause = true;
                 if(!isStart)
                 {
+                    InitStart();
                     isStart = true;
                 }
                 for(int i=0;i<4;i++){
@@ -268,6 +280,10 @@ public class GameController : MonoBehaviour
                 isTImerChecker[i] = false;
             }
         }
+    }
+    private void InitStart()
+    {
+        
     }
     public void TouchPauseButton()
     {
