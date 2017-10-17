@@ -5,4 +5,5 @@ using System.Collections.Generic;
 public class Data  
 {
 	public readonly static Data Instance = new Data();
+	public int level = 0;
 }

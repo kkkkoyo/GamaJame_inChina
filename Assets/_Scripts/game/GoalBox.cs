@@ -2,23 +2,20 @@
 using System.Collections;
 using UnityEngine.SceneManagement;	//シーンを遷移させるのに必要なもの
 
-public class DangerWall : MonoBehaviour
+public class GoalBox : MonoBehaviour
 {
     [SerializeField] private GameController gamecontroller;
     private bool isFinished = false;
     // オブジェクトと接触した時に呼ばれるコールバック
     void OnCollisionEnter (Collision hit)
     {
+        Debug.Log("hit");
+
         // 接触したオブジェクトのタグが"Player"の場合
         if (hit.gameObject.CompareTag ("Player")) {
+        Debug.Log("hit!!!!");
 
-            SoundManager.Instance.PlaySe("error");
-            // 現在のシーン番号を取得
-			//シーン番号はBuildしたときの番号となっている
-            int sceneIndex = SceneManager.GetActiveScene().buildIndex;
-
-            // 現在のシーンを再読込する
-            SceneManager.LoadScene(sceneIndex);
+            gamecontroller.GoalClear();   
         }
     }
 }

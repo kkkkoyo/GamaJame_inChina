@@ -9,9 +9,6 @@ public class DangerBox : MonoBehaviour
     // オブジェクトと接触した時に呼ばれるコールバック
     void OnCollisionEnter (Collision hit)
     {
-        if(gamecontroller.GetisFinished()){
-            return ;
-        }
         // 接触したオブジェクトのタグが"Player"の場合
         if (hit.gameObject.CompareTag ("Player")) {
 

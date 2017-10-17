@@ -2,11 +2,11 @@
 using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
     public Text scoreLabel;
-	[SerializeField] private GameObject winnerLabelObject;
     private bool isFinished = false;
     private bool isStart = false;
     private bool isPlaying = false;
@@ -20,13 +20,13 @@ public class GameController : MonoBehaviour
     [SerializeField]private Image[] isTapButton;
 
     private Color beforeColor = Color.gray;
-    private Color afterColor = Color.red;
-    private Color prepareColor = Color.cyan;
+    private Color afterColor = Color.yellow;
+    private Color prepareColor = Color.white;
     private bool isButtonChecker = false;
     private float StartTime = 0;
     private float GameTime = 0;
     private float GameStartTime = 0;
-    private float touchDangerCount = 0;
+    private int touchDangerCount = 0;
     private float Timer = 0;
     private float select_TimeLimit = 3f;
     private bool[] isTImerChecker = new bool [4]{false,false,false,false};
@@ -35,13 +35,42 @@ public class GameController : MonoBehaviour
     private float DangerTime = 0;
     private float DangerStartTime = 0;
     private float DangerReuseSpeed = 1f;
+    [SerializeField] private Image FinishedImage;
+    [SerializeField] private Text ScoreText;
+    private int score = 0;
+    private int [] CH_LIM = new int[5]　{1000,800,600,400,200}; //const_num
+    public void GoMenu(){
+        SceneManager.LoadScene("PassChoose");
+    }
+    public void GoRetry(){
+        SceneManager.LoadScene("stage1");
+    }
+    public void GoRestart(){
+        PauseButton.gameObject.SetActive(false);
+        isPause = false;
+    }
     public void ReduceTouchPoint()
     {
         if(Time.time - DangerStartTime >= DangerReuseSpeed)
         {
+            Debug.Log("ReduceTouchPoint");
             DangerStartTime = Time.time;
+            //GoRestart();
             touchDangerCount++;
         }
+    }
+    public void GoalClear()
+    {
+        int wallScore = 10;
+        int GameTimeScore = 10;
+        score = CH_LIM[Data.Instance.level]-(int)GameTime-(wallScore*touchDangerCount)*2;
+        if(score<=0){
+            Debug.Log("score<=0");
+            score = 0;
+        }
+        ScoreText.text = score.ToString();
+        FinishedImage.gameObject.SetActive(true);
+        //TODO:アニメーション            
     }
     private void InitTapColors()
     {
@@ -103,7 +132,7 @@ public class GameController : MonoBehaviour
     }
     public void isTapOutStartButton(int num)
     {
-        return ;//is Test mode, iOS is noReturn
+       //return ;//is Test mode, iOS is noReturn
         Color[] imageColors = new Color [4]{prepareColor,beforeColor,beforeColor,prepareColor};
 
         // if(isStart)
@@ -294,15 +323,9 @@ public class GameController : MonoBehaviour
     {
         GameStartTime = Time.time;
     }
-    public void TouchPauseButton()
-    {
-        PauseButton.gameObject.SetActive(false);
-        isPause = false;
-    }
     public void Update ()
     {
         TestKeyButton();
-        Debug.Log(PauseButton.gameObject.active);
         if(isStart&&!PauseButton.gameObject.active)
         {
             GameTime = Time.time - GameStartTime;
@@ -314,11 +337,10 @@ public class GameController : MonoBehaviour
             scoreLabel.text = count.ToString ();
             if (count == 0 && !isFinished) {
 
-                isFinished = true;
+                //isFinished = true;
                 SoundManager.Instance.StopSe();
                 SoundManager.Instance.PlaySe("clear");
                 // active object
-                winnerLabelObject.SetActive (true);
             }
         }else{
             CheckPushButton();

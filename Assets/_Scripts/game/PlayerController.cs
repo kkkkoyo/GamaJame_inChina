@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour {
     // speedを制御する
     private void ChangeGravity()
     {
-        transform.GetComponent<Rigidbody>().useGravity = false;
+        //TODO:addforce:zero
     }
     public float speed = 10;
     [SerializeField] private GameController gamecontroller;
@@ -18,7 +18,6 @@ public class PlayerController : MonoBehaviour {
             ChangeGravity();
             return;
         }
-        transform.GetComponent<Rigidbody>().useGravity = true;
         //  入力をxとzに代入
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
