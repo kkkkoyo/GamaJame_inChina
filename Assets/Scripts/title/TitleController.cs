@@ -7,6 +7,7 @@ public class TitleController : MonoBehaviour {
 	[SerializeField] private Image wheels; 
 	// Use this for initialization
 	void Awake () {
+		SoundManager.Instance.PlayBgm("start");
 		if(Data.Instance.isTitleDisplay)
         {
 			wheels.gameObject.SetActive(false);

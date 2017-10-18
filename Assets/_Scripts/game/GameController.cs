@@ -20,6 +20,7 @@ public class GameController : MonoBehaviour
     private bool[] isLeftTap = new bool [2]{false,false};
     private bool[] isRightTap = new bool [2]{false,false};
     [SerializeField]private Image[] isTapButton;
+    [SerializeField] private Image dangerImager;
 
     // private Color beforeColor;
     // private Color afterColor;
@@ -41,6 +42,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private Text ScoreText;
     private int score = 0;
     private int [] CH_LIM = new int[5]　{1000,800,600,400,200}; //const_num
+    private bool isGoal = false;
 
     void Awake()
     {
@@ -61,14 +63,27 @@ public class GameController : MonoBehaviour
         return new Color(255,255,255,0.2f);
     }
     public void GoMenu(){
+        SoundManager.Instance.PlaySe("title_se");
+
         SceneManager.LoadScene("PassChoose");
     }
     public void GoRetry(){
+        SoundManager.Instance.PlaySe("title_se");
+
         SceneManager.LoadScene("stage1");
     }
     public void GoRestart(){
+        SoundManager.Instance.PlaySe("title_se");
+
         PauseButton.gameObject.SetActive(false);
         isPause = false;
+    }
+    IEnumerator ShowImage()
+    {
+
+        dangerImager.gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.2f);
+        dangerImager.gameObject.SetActive(false);
     }
     public void ReduceTouchPoint()
     {
@@ -77,6 +92,10 @@ public class GameController : MonoBehaviour
             Debug.Log("ReduceTouchPoint");
             DangerStartTime = Time.time;
             //GoRestart();
+            //todo
+            SoundManager.Instance.PlaySe("Steps");
+
+            StartCoroutine(ShowImage());
             touchDangerCount++;
         }
     }
@@ -91,6 +110,7 @@ public class GameController : MonoBehaviour
         }
         ScoreText.text = score.ToString();
         FinishedImage.gameObject.SetActive(true);
+        isGoal = true;
         //TODO:アニメーション            
     }
     private Color colorrr()
@@ -260,6 +280,10 @@ public class GameController : MonoBehaviour
 
             // }
             float timeCount = Time.time - StartTime;
+            if(PauseButton.gameObject.active)
+            {
+                PauseButton.gameObject.active = false;
+            }
             //circle.fillAmount = timeCount/select_TimeLimit+0.05f;
             if (timeCount >= 0&&!isTImerChecker[0])
             {
@@ -326,6 +350,10 @@ public class GameController : MonoBehaviour
         {
             GameTime = Time.time - GameStartTime;
         }
+        if(isGoal)
+        {
+            //PauseButton.gameObject.SetActive(false);
+        }
         if(isPlaying)
         {
             CheckPushButton();
@@ -334,8 +362,8 @@ public class GameController : MonoBehaviour
             if (count == 0 && !isFinished) {
 
                 //isFinished = true;
-                SoundManager.Instance.StopSe();
-                SoundManager.Instance.PlaySe("clear");
+                // SoundManager.Instance.StopSe();
+                // SoundManager.Instance.PlaySe("clear");
                 // active object
             }
         }else{

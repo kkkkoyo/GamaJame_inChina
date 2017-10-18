@@ -7,17 +7,17 @@ public class Title_Scene_Change_Controller : MonoBehaviour {
 
 	void Awake()
 	{
-		SoundManager.Instance.PlayBgm("loop");
+		SoundManager.Instance.PlayBgm("main");
 	}
 
 	public void OnClickedStart()
 	{
-		SoundManager.Instance.PlaySe("OK");
+		SoundManager.Instance.PlaySe("title_se");
 		SceneManager.LoadScene("stage1");
 	}
 		public void OnClickedBack()
 	{
-		SoundManager.Instance.PlaySe("OK");
+		SoundManager.Instance.PlaySe("title_se");
 		SceneManager.LoadScene("Title");
 	}
 }

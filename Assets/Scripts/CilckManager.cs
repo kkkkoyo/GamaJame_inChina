@@ -22,6 +22,7 @@ public class CilckManager : MonoBehaviour {
     void Update () {
         if (Input.GetButtonUp("Fire1"))
         {
+            SoundManager.Instance.PlaySe("OK");
             move = true;
             tag.SetActive(false);
             Invoke("jump",1); 
