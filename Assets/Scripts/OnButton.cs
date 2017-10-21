@@ -35,22 +35,28 @@ public class OnButton : MonoBehaviour {
         {
             //start Stage1
             case 1:
-
-                    SoundManager.Instance.PlaySe("bigok");
-
+                SoundManager.Instance.PlaySe("bigok");
                 SceneManager.LoadScene("stage1");
+                Data.Instance.level = 0;
                 break;
             //stage2
             case 2:
                 SoundManager.Instance.PlaySe("bigok");
-
                 SceneManager.LoadScene("stage1");
+                Data.Instance.level = 1;
                 break;
             //stage3
             case 3:
+                SoundManager.Instance.PlaySe("bigok");
+                SceneManager.LoadScene("stage1");
+                Data.Instance.level = 2;
                 break;
+                ;
             //stage4
             case 4:
+                SoundManager.Instance.PlaySe("bigok");
+                SceneManager.LoadScene("stage1");
+                Data.Instance.level = 3;
                 break;
             //stage5
             case 5:

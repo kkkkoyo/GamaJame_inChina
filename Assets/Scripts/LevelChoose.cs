@@ -32,8 +32,16 @@ public class LevelChoose : MonoBehaviour {
         }
     };
 
-    private void Awake()
+    private void Start()
     {
+        XMLManager.UpdateIsPass(1, true);
+        XMLManager.UpdateIsPass(2, true);
+        XMLManager.UpdateIsPass(3, true);
+        XMLManager.UpdateIsPass(4, true);
+        XMLManager.UpdateBestScore(1, 310);
+        XMLManager.UpdateBestScore(2, 430);
+        XMLManager.UpdateBestScore(3, 220);
+        XMLManager.UpdateBestScore(4, 430);
         StageNum = 1;
         UpdateName();
         UpdateScore();

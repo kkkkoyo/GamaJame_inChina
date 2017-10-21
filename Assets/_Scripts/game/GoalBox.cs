@@ -7,6 +7,11 @@ public class GoalBox : MonoBehaviour
     [SerializeField] private GameController gamecontroller;
     private bool isFinished = false;
     // オブジェクトと接触した時に呼ばれるコールバック
+    void Start()
+    {
+        gamecontroller = GameObject.Find("GameController").GetComponent<GameController>();
+    }
+    
     void OnCollisionEnter (Collision hit)
     {
         Debug.Log("hit");

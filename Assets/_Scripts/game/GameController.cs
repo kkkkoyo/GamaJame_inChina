@@ -41,14 +41,15 @@ public class GameController : MonoBehaviour
     [SerializeField] private Image FinishedImage;
     [SerializeField] private Text ScoreText;
     private int score = 0;
-    private int [] CH_LIM = new int[5]　{1000,800,600,400,200}; //const_num
     private bool isGoal = false;
+    [SerializeField] private GameObject[] stage ;
 
     void Awake()
     {
         // prepareColor  = Color.white;
         // beforeColor = Color.gray;
         // afterColor  = Color.gray;
+        Instantiate(stage[Data.Instance.level]);
     }
     private Color prepareColor()
     {
@@ -103,12 +104,13 @@ public class GameController : MonoBehaviour
     {
         int wallScore = 10;
         int GameTimeScore = 10;
-        score = CH_LIM[Data.Instance.level]-(int)GameTime-(wallScore*touchDangerCount)*2;
+        score = 1000-(int)GameTime-(wallScore*touchDangerCount)*2;
         if(score<=0){
             Debug.Log("score<=0");
             score = 0;
         }
         ScoreText.text = score.ToString();
+        SoundManager.Instance.PlaySe("bigok");
         FinishedImage.gameObject.SetActive(true);
         isGoal = true;
         //TODO:アニメーション            

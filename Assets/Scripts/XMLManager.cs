@@ -17,10 +17,7 @@ public class XMLManager : MonoBehaviour
             {
                 CreateLevel((i + 1).ToString(), "0", "False");
             }
-            XMLManager.UpdateIsPass(1, true);
-            XMLManager.UpdateIsPass(2, true);
-            XMLManager.UpdateBestScore(1, 20);
-            XMLManager.UpdateBestScore(2, 430);
+            
         }
 
     }
